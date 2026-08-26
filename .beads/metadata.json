@@ -1,0 +1,7 @@
+{
+  "database": "dolt",
+  "backend": "dolt",
+  "dolt_mode": "embedded",
+  "dolt_database": "janver",
+  "project_id": "d7d13457-075f-4966-84ec-2fb25452ba11"
+}
