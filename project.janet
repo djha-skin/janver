@@ -1,13 +1,13 @@
 # project.janet
 #
-# janver — Compare versions on the command line.
+# janver — Compare versions in Janet.
 
 (declare-project
   :name "janver"
   :description `
-  Compare version numbers from the command line.
+  Compare Debian and Semantic Versioning versions from Janet.
   `
-  :version "0.1.0"
+  :version "0.2.0"
   :author "Daniel Jay Haskin"
   :license "MIT"
   :dependencies [{:url "https://github.com/ianthehenry/judge.git"
@@ -33,14 +33,17 @@
       (def env (merge (os/environ)
                       @{"JANET_PATH" (string (os/cwd) "/jpm_tree/lib")}))
       (def code (os/execute [(string (os/cwd) "/" doc-bin)
-                             "-l" "-o" "docs/api.md"] :e env))
+                             "-l"
+                             "-L"
+                             "https://github.com/djha-skin/janver/blob/main/"
+                             "-o" "docs/api.md"] :e env))
       (when (not= 0 code)
         (error (string "documentarian failed with exit code " code))))
 
 # Point the default `test` rule (registered by declare-project) at
-# the test/ directory. The `task` macro would only append another
-# thunk to the existing rule's recipe, so clear it and add our own
-# instead.
+# the source file containing the Judge tests. The `task` macro would
+# only append another thunk to the existing rule's recipe, so clear it
+# and add our own instead.
 (def test-rule (get (dyn :rules) "test"))
 (array/clear (get test-rule :recipe))
-(array/push (get test-rule :recipe) (fn [] (run-tests "test")))
+(array/push (get test-rule :recipe) (fn [] (run-tests "src")))

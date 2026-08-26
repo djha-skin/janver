@@ -1,9 +1,12 @@
+# src/init.janet
+#
+# Compare Debian and Semantic Versioning versions.
+
 (use judge)
 
 (def- debian-version
   (peg/compile
-    ~{
-      :number (range "09")
+    ~{:number (range "09")
       :non-number (choice (range "\x00\x2F")
                           (range "\x3A\xFF"))
       :epochless (group (any
@@ -32,14 +35,16 @@
   (test (peg/match debian-version "a3") @["" @["a" "3"]])
   (test (peg/match debian-version "3a") @["" @["" "3" "a" ""]])
   (test (peg/match debian-version ".") @["" @["." ""]])
-  (test (peg/match debian-version "1.2.3") @["" @["" "1" "." "2" "." "3"]])
-  (test (peg/match debian-version "1a2b3c") @["" @["" "1" "a" "2" "b" "3" "c" ""]])
+  (test (peg/match debian-version "1.2.3")
+        @["" @["" "1" "." "2" "." "3"]])
+  (test (peg/match debian-version "1a2b3c")
+        @["" @["" "1" "a" "2" "b" "3" "c" ""]])
   (test (peg/match debian-version "1.2.3~rc1")
-    @[""
-      @["" "1" "." "2" "." "3" "~rc" "1"]])
+        @[""
+          @["" "1" "." "2" "." "3" "~rc" "1"]])
   (test (peg/match debian-version "1.2.3~~rc1")
-    @[""
-      @["" "1" "." "2" "." "3" "~~rc" "1"]])
+        @[""
+          @["" "1" "." "2" "." "3" "~~rc" "1"]])
   (test (peg/match debian-version "1:2.3.4") @["1" @["" "2" "." "3" "." "4"]])
   (test (peg/match debian-version "0:") @["0" @[]])
   (test (peg/match debian-version "") @["" @[]])
@@ -62,11 +67,11 @@
     (if (not= la lb)
       (- la lb)
       (label compare-parts
-             (for i 0 la
-               (let [diff (- (get trimmed-a i) (get trimmed-b i))]
-                 (when (not= diff 0)
-                   (return compare-parts diff))))
-             0))))
+        (for i 0 la
+          (let [diff (- (get trimmed-a i) (get trimmed-b i))]
+            (when (not= diff 0)
+              (return compare-parts diff))))
+        0))))
 
 (deftest numbers-compare
   (test (numbers-compare "" "0") 0)
@@ -80,12 +85,14 @@
 (defn- debian-compare-transform
   `
   Transforms the numeric value of a byte so that it will conform to the
-  comparison rules for characters in a non-digit debian-version part in the Deiban
+  comparison rules for characters in a non-digit debian-version part in the
+  Deiban
   Policy Manual, section 5.6.12, about the "Version" field.
 
   Takes a character's numeric value and transforms it so that:
 
-  1. If the number corresponds to a tilde, its negative will be returned (-0x7E).
+  1. If the number corresponds to a tilde, its negative will be returned
+     (-0x7E).
   2. If the number corresponds to an English upper-case value, a new number
      between -0x7A and -0x61 will be returned such that two such transform
      returns a' from a and b' from b will satisfy (< a b) iff (< a b).
@@ -102,22 +109,22 @@
 (deftest debian-compare-transform
   (test (debian-compare-transform (get "~~a" 0)) -126)
   (test (map debian-compare-transform "AaBbCcZz&^%$#@!@")
-    @[-122
-      -90
-      -121
-      -89
-      -120
-      -88
-      -97
-      -65
-      38
-      94
-      37
-      36
-      35
-      64
-      33
-      64])
+        @[-122
+          -90
+          -121
+          -89
+          -120
+          -88
+          -97
+          -65
+          38
+          94
+          37
+          36
+          35
+          64
+          33
+          64])
   (test (map debian-compare-transform "~~rc") @[-126 -126 -73 -88])
   (test (map debian-compare-transform "~rc") @[-126 -73 -88]))
 
@@ -138,13 +145,13 @@
         minl (min la lb)
         parts-check
         (label compare-parts
-               (for i 0 minl
-                 (let [effective-a (debian-compare-transform (get a i))
-                       effective-b (debian-compare-transform (get b i))
-                       difference (- effective-a effective-b)]
-                   (if (not= difference 0)
-                     (return compare-parts difference))))
-               0)]
+          (for i 0 minl
+            (let [effective-a (debian-compare-transform (get a i))
+                  effective-b (debian-compare-transform (get b i))
+                  difference (- effective-a effective-b)]
+              (if (not= difference 0)
+                (return compare-parts difference))))
+          0)]
     (if (not= parts-check 0)
       parts-check
       (if (not= la lb)
@@ -183,16 +190,18 @@
       [a b])))
 
 (deftest justify
-  (test (justify @["a" "" "b" "" "c"] @[]) [@["a" "" "b" "" "c"] @["" "" "" "" ""]])
+  (test (justify @["a" "" "b" "" "c"] @[])
+        [@["a" "" "b" "" "c"] @["" "" "" "" ""]])
   (test (justify @[] @[]) [@[] @[]])
   (test (justify @["a" "" "b" "" "c"] @["" "1" "" "2" "" "3"])
-    [@["a" "" "b" "" "c" ""]
-     @["" "1" "" "2" "" "3"]])
-  (test (justify (peg/match debian-version "1.2.3~rc1") (peg/match debian-version "1.2.3~~rc1"))
-    [@[""
-       @["" "1" "." "2" "." "3" "~rc" "1"]]
-     @[""
-       @["" "1" "." "2" "." "3" "~~rc" "1"]]]))
+        [@["a" "" "b" "" "c" ""]
+         @["" "1" "" "2" "" "3"]])
+  (test (justify (peg/match debian-version "1.2.3~rc1")
+                 (peg/match debian-version "1.2.3~~rc1"))
+        [@[""
+           @["" "1" "." "2" "." "3" "~rc" "1"]]
+         @[""
+           @["" "1" "." "2" "." "3" "~~rc" "1"]]]))
 
 (defn debian-vercmp [a b]
   `
@@ -208,30 +217,30 @@
         (let [[just-a just-b] (justify a-parts b-parts)
               la (length just-a)]
           (label compare-parts
-                 (var i 0)
-                 (while (< i la)
-                   (let [first-cmp (non-numbers-compare
-                                     (get just-a i)
-                                     (get just-b i))]
-                     (when (not= first-cmp 0)
-                       (return compare-parts first-cmp)))
-                   (++ i)
-                   (let [second-cmp (numbers-compare
-                                      (get just-a i)
-                                      (get just-b i))]
-                     (when (not= second-cmp 0)
-                       (return compare-parts second-cmp)))
-                   # Due to the nature of the PEG, I can guarantee that there
-                   # are an even number of matches for both A and B, so I'm
-                   # allowed to do this.
-                   (++ i))
-                 0))))))
+            (var i 0)
+            (while (< i la)
+              (let [first-cmp (non-numbers-compare
+                                (get just-a i)
+                                (get just-b i))]
+                (when (not= first-cmp 0)
+                  (return compare-parts first-cmp)))
+              (++ i)
+              (let [second-cmp (numbers-compare
+                                 (get just-a i)
+                                 (get just-b i))]
+                (when (not= second-cmp 0)
+                  (return compare-parts second-cmp)))
+              # Due to the nature of the PEG, I can guarantee that there
+              # are an even number of matches for both A and B, so I'm
+              # allowed to do this.
+              (++ i))
+            0))))))
 
 (deftest debian-vercmp
   (test (= (debian-vercmp "" "") 0) true)
   (test (< (debian-vercmp "~~" "~~a") 0) true)
-  (test (> (debian-vercmp "~"  "~~a") 0) true)
-  (test (< (debian-vercmp "~"  "") 0) true)
+  (test (> (debian-vercmp "~" "~~a") 0) true)
+  (test (< (debian-vercmp "~" "") 0) true)
   (test (> (debian-vercmp "a" "") 0) true)
   (test (< (debian-vercmp "1.2.3~rc1" "1.2.3") 0) true)
   (test (= (debian-vercmp "1.2" "1.2") 0) true)
@@ -252,20 +261,20 @@
 
 (def semver2
   (peg/compile
-    ~{
-      :letter (choice (range "AZ") (range "az"))
+    ~{:letter (choice (range "AZ") (range "az"))
       :positive-digit (range "19")
       :digit (range "09")
       :digits (some :digit)
       :non-digit (choice :letter "-")
       :identifier-character (choice :digit :non-digit)
       :numeric (choice "0" (sequence :positive-digit (any :digit)))
-      :alphanumeric (sequence (any :digit) :non-digit (any :identifier-character))
+      :alphanumeric (sequence (any :digit) :non-digit
+                              (any :identifier-character))
       :build-identifier (capture (choice :alphanumeric (any :digit)))
       :pri (choice
              (replace
                (capture :alphanumeric)
-              ,|(do [:alphanumeric $]))
+               ,|(do [:alphanumeric $]))
              (replace
                (capture :numeric)
                ,|(do [:numeric $])))
@@ -282,18 +291,55 @@
       :main :semver}))
 
 (deftest semver2
-  (test (peg/match semver2 "1.2.3"))
-  (test (peg/match semver2 "1.0.0-alpha"))
-  (test (peg/match semver2 "1.0.0-alpha.1"))
-  (test (peg/match semver2 "1.0.0-0.3.7"))
-  (test (peg/match semver2 "1.0.0-x.7.z.92"))
-  (test (peg/match semver2 "1.0.0-x-y-z.--.")))
-
-  (test (peg/match semver2 "1.0.0-alpha+001"))
-  (test (peg/match semver2 "1.0.0+20130313144700"))
-  (test (peg/match semver2 "1.0.0-beta+exp.sha.5114f85"))
-  (test (peg/match semver2 "1.0.0+21AF26D3----117B344092BD"))
-  (test (peg/match semver2 "1234567890.98765.0-alpha.1+a-b-c.d-e-f.15")))
+  (test (peg/match semver2 "1.2.3") @[@["1" "2" "3"] @[] @[]])
+  (test (peg/match semver2 "1.0.0-alpha")
+        @[@["1" "0" "0"]
+          @[[:alphanumeric "alpha"]]
+          @[]])
+  (test (peg/match semver2 "1.0.0-alpha.1")
+        @[@["1" "0" "0"]
+          @[[:alphanumeric "alpha"]
+            [:numeric "1"]]
+          @[]])
+  (test (peg/match semver2 "1.0.0-0.3.7")
+        @[@["1" "0" "0"]
+          @[[:numeric "0"]
+            [:numeric "3"]
+            [:numeric "7"]]
+          @[]])
+  (test (peg/match semver2 "1.0.0-x.7.z.92")
+        @[@["1" "0" "0"]
+          @[[:alphanumeric "x"]
+            [:numeric "7"]
+            [:alphanumeric "z"]
+            [:numeric "92"]]
+          @[]])
+  (test (peg/match semver2 "1.0.0-x-y-z.--.")
+        @[@["1" "0" "0"]
+          @[[:alphanumeric "x-y-z"]
+            [:alphanumeric "--"]]
+          @[]])
+  (test (peg/match semver2 "1.0.0-alpha+001")
+        @[@["1" "0" "0"]
+          @[[:alphanumeric "alpha"]]
+          @["001"]])
+  (test (peg/match semver2 "1.0.0+20130313144700")
+        @[@["1" "0" "0"]
+          @[]
+          @["20130313144700"]])
+  (test (peg/match semver2 "1.0.0-beta+exp.sha.5114f85")
+        @[@["1" "0" "0"]
+          @[[:alphanumeric "beta"]]
+          @["exp" "sha" "5114f85"]])
+  (test (peg/match semver2 "1.0.0+21AF26D3----117B344092BD")
+        @[@["1" "0" "0"]
+          @[]
+          @["21AF26D3----117B344092BD"]])
+  (test (peg/match semver2 "1234567890.98765.0-alpha.1+a-b-c.d-e-f.15")
+        @[@["1234567890" "98765" "0"]
+          @[[:alphanumeric "alpha"]
+            [:numeric "1"]]
+          @["a-b-c" "d-e-f" "15"]]))
 
 (defn semver2-vercmp
   `
@@ -304,68 +350,65 @@
   (let [[[major-a minor-a patch-a] prerelease-a build-a] (peg/match semver2 a)
         [[major-b minor-b patch-b] prerelease-b build-b] (peg/match semver2 b)]
     (label top
-           (let [major-cmp (numbers-compare major-a major-b)]
-             (when (not= major-cmp 0)
-               (return top major-cmp)))
-           (let [minor-cmp (numbers-compare minor-a minor-b)]
-             (when (not= minor-cmp 0)
-               (return top minor-cmp)))
-           (let [patch-cmp (numbers-compare patch-a patch-b)]
-             (when (not= patch-cmp 0)
-               (return top patch-cmp)))
-           (print "Welp. The numbers match.")
-           (let [la (length prerelease-a)
-                 lb (length prerelease-b)
-                 minl (min la lb)]
-             (cond
-               (and (= la 0) (= lb 0)) (return top 0)
-               (= la 0) (return top 1)
-               (= lb 0) (return top -1))
-             (printf "The number of common parts: %d" minl)
-             (for i 0 minl
-               (print "Around we go!")
-               (let [result-of-part
-                     (label prerelease-part
-                            (match [(get prerelease-a i)
-                                    (get prerelease-b i)]
-                              [[:numeric a-part]
-                               [:numeric b-part]]
-                              (return
-                                prerelease-part
-                                (numbers-compare a-part b-part))
-                              [[:alphanumeric a-part]
-                               [:alphanumeric b-part]]
-                              (return
-                                prerelease-part
-                                (cond
-                                  (< a-part b-part) -1
-                                  (< b-part a-part) 1
-                                  0))
-                              [[:numeric a-part]
-                               [:alphanumeric b-part]] -1
-                              [[:alphanumeric a-part]
-                               [:numeric b-part]] 1))]
-                 (when (not= result-of-part 0)
-                   (return top result-of-part))))
-             (cond
-               (> la minl) 1
-               (> lb minl) -1
-               0)))))
+      (let [major-cmp (numbers-compare major-a major-b)]
+        (when (not= major-cmp 0)
+          (return top major-cmp)))
+      (let [minor-cmp (numbers-compare minor-a minor-b)]
+        (when (not= minor-cmp 0)
+          (return top minor-cmp)))
+      (let [patch-cmp (numbers-compare patch-a patch-b)]
+        (when (not= patch-cmp 0)
+          (return top patch-cmp)))
+      (let [la (length prerelease-a)
+            lb (length prerelease-b)
+            minl (min la lb)]
+        (cond
+          (and (= la 0) (= lb 0)) (return top 0)
+          (= la 0) (return top 1)
+          (= lb 0) (return top -1))
+        (for i 0 minl
+          (let [result-of-part
+                (label prerelease-part
+                  (match [(get prerelease-a i)
+                          (get prerelease-b i)]
+                    [[:numeric a-part]
+                     [:numeric b-part]]
+                    (return
+                      prerelease-part
+                      (numbers-compare a-part b-part))
+                    [[:alphanumeric a-part]
+                     [:alphanumeric b-part]]
+                    (return
+                      prerelease-part
+                      (cond
+                        (< a-part b-part) -1
+                        (< b-part a-part) 1
+                        0))
+                    [[:numeric a-part]
+                     [:alphanumeric b-part]] -1
+                    [[:alphanumeric a-part]
+                     [:numeric b-part]] 1))]
+            (when (not= result-of-part 0)
+              (return top result-of-part))))
+        (cond
+          (> la minl) 1
+          (> lb minl) -1
+          0)))))
 
 (deftest semver2-vercmp
-  (test (semver2-vercmp "1.9.0" "1.10.0"))
-  (test (semver2-vercmp "1.10.0" "1.11.0"))
-  (test (semver2-vercmp "1.0.0" "2.0.0"))
-  (test (semver2-vercmp "2.0.0" "2.1.0"))
-  (test (semver2-vercmp "2.1.0" "2.1.1"))
-  (test (semver2-vercmp "1.0.0-alpha" "1.0.0"))
-  (test (semver2-vercmp "1.0.0-alpha" "1.0.0-alpha.1"))
-  (test (semver2-vercmp "1.0.0-alpha.1" "1.0.0-alpha.beta"))
-  (test (semver2-vercmp "1.0.0-alpha.beta" "1.0.0-alpha.1"))
-  (test (semver2-vercmp "1.0.0-alpha.beta" "1.0.0-alpha.beta"))
-  (test (semver2-vercmp "1.0.0-alpha.beta" "1.0.0-beta"))
-  (test (semver2-vercmp "1.0.0-beta" "1.0.0-alpha.beta"))
-  (test (semver2-vercmp "1.0.0-beta.2" "1.0.0-beta"))
-  (test (semver2-vercmp "1.0.0-beta.2" "1.0.0-beta.11"))
-  (test (semver2-vercmp "1.0.0-beta.11" "1.0.0-rc.1"))
-  (test (semver2-vercmp "1.0.0-rc.1" "1.0.0")))
+  (test (semver2-vercmp "1.9.0" "1.10.0") -1)
+  (test (semver2-vercmp "1.10.0" "1.11.0") -1)
+  (test (semver2-vercmp "1.0.0" "2.0.0") -1)
+  (test (semver2-vercmp "2.0.0" "2.1.0") -1)
+  (test (semver2-vercmp "2.1.0" "2.1.1") -1)
+  (test (semver2-vercmp "1.0.0-alpha" "1.0.0") -1)
+  (test (semver2-vercmp "1.0.0-alpha" "1.0.0-alpha.1") -1)
+  (test (semver2-vercmp "1.0.0-alpha.1" "1.0.0-alpha.beta") -1)
+  (test (semver2-vercmp "1.0.0-alpha.beta" "1.0.0-alpha.1") 1)
+  (test (semver2-vercmp "1.0.0-alpha.beta" "1.0.0-alpha.beta") 0)
+  (test (semver2-vercmp "1.0.0-alpha.beta" "1.0.0-beta") -1)
+  (test (semver2-vercmp "1.0.0-beta" "1.0.0-alpha.beta") 1)
+  (test (semver2-vercmp "1.0.0-beta.2" "1.0.0-beta") 1)
+  (test (semver2-vercmp "1.0.0-beta.2" "1.0.0-beta.11") -1)
+  (test (semver2-vercmp "1.0.0-beta.11" "1.0.0-rc.1") -1)
+  (test (semver2-vercmp "1.0.0-rc.1" "1.0.0") -1))
