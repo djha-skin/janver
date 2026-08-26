@@ -76,7 +76,7 @@ The project is released as Git tags. The current release is `v0.2.0`.
 `janver` is released under the MIT License. See [LICENSE](LICENSE) for the
 full text.
 
-## The name
+## The Name
 
 The name is a little coincidence: it sounds like “JANet VERsioning,” which
 fits the library, but `janver` is really named for Johannes Vermeer, the
