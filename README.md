@@ -46,7 +46,7 @@ precedence.
 ## Documentation
 
 The full documentation is published at
-[docs.janver](https://djha-skin.github.io/janver/):
+[GitHub Pages documentation](https://djha-skin.github.io/janver/):
 
 - [Quickstart](https://djha-skin.github.io/janver/quickstart.html)
 - [Installation](https://djha-skin.github.io/janver/install.html)

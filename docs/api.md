@@ -2,69 +2,38 @@
 
 ## src/init
 
-[debian-vercmp](#debian-vercmp), [justify](#justify), [numbers-compare](#numbers-compare), [semver2](#semver2), [semver2-vercmp](#semver2-vercmp)
+### debian-vercmp
 
-## debian-vercmp
+[Source](https://github.com/djha-skin/janver/blob/main/src/init.janet#L210)
 
-**function**  | [source][1]
-
-```janet
 (debian-vercmp a b)
-```
+
+Compares two version numbers according to the rules set forth in the Debian
+Policy Manual.
 
 
+### debian-version
 
-[1]: https://github.com/djha-skin/janver/blob/main/src/init.janet#L206
+[Source](https://github.com/djha-skin/janver/blob/main/src/init.janet#L7)
 
-
-## justify
-
-**function**  | [source][2]
-
-```janet
-(justify a b)
-```
-
-Ensures both arrays of strings have the same number of elements
-
-[2]: https://github.com/djha-skin/janver/blob/main/src/init.janet#L179
+Parse a Debian version into its epoch and alternating non-numeric and
+numeric parts.
 
 
-## numbers-compare
+### semver2
 
-**function**  | [source][3]
+[Source](https://github.com/djha-skin/janver/blob/main/src/init.janet#L269)
 
-```janet
-(numbers-compare a b)
-```
-
+Parse a Semantic Versioning 2.0.0 version into its core, pre-release, and
+build metadata parts.
 
 
-[3]: https://github.com/djha-skin/janver/blob/main/src/init.janet#L57
+### semver2-vercmp
 
+[Source](https://github.com/djha-skin/janver/blob/main/src/init.janet#L355)
 
-## semver2
-
-**core/peg**  | [source][4]
-
-```janet
-<core/peg 0x00000AC29330>
-```
-
-
-[4]: https://github.com/djha-skin/janver/blob/main/src/init.janet#L262
-
-
-## semver2-vercmp
-
-**function**  | [source][5]
-
-```janet
 (semver2-vercmp a b)
-```
 
 Compare two version numbers according to the rules found at
 https://semver.org/#semantic-versioning-200 .
-
-[5]: https://github.com/djha-skin/janver/blob/main/src/init.janet#L344
 

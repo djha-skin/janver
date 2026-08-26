@@ -4,7 +4,11 @@
 
 (use judge)
 
-(def- debian-version
+(def debian-version
+  `
+  Parse a Debian version into its epoch and alternating non-numeric and
+  numeric parts.
+  `
   (peg/compile
     ~{:number (range "09")
       :non-number (choice (range "\x00\x2F")
@@ -54,7 +58,7 @@
   (test (peg/match debian-version "1:1.2.3") @["1" @["" "1" "." "2" "." "3"]])
   (test (peg/match debian-version "2:0.4.5") @["2" @["" "0" "." "4" "." "5"]]))
 
-(defn numbers-compare [a b]
+(defn- numbers-compare [a b]
   `
   Compares two strings as if they are numbers.
   The strings must only contain characters ranging from 0-9 or none at all.
@@ -176,7 +180,7 @@
   (test (non-numbers-compare "fifty" "fifty-") -1)
   (test (non-numbers-compare "~rc" "~~rc") 53))
 
-(defn justify
+(defn- justify
   "Ensures both arrays of strings have the same number of elements"
   [a b]
   (let [la (length a)
@@ -203,11 +207,14 @@
          @[""
            @["" "1" "." "2" "." "3" "~~rc" "1"]]]))
 
-(defn debian-vercmp [a b]
+(defn debian-vercmp
   `
+  (debian-vercmp a b)
+
   Compares two version numbers according to the rules set forth in the Debian
   Policy Manual.
   `
+  [a b]
   (if (= a b) 0
     (let [[a-epoch a-parts] (peg/match debian-version a)
           [b-epoch b-parts] (peg/match debian-version b)
@@ -260,6 +267,10 @@
   (test (< (debian-vercmp "1:1.2.3" "2:0.4.5") 0) true))
 
 (def semver2
+  `
+  Parse a Semantic Versioning 2.0.0 version into its core, pre-release, and
+  build metadata parts.
+  `
   (peg/compile
     ~{:letter (choice (range "AZ") (range "az"))
       :positive-digit (range "19")
@@ -343,6 +354,8 @@
 
 (defn semver2-vercmp
   `
+  (semver2-vercmp a b)
+
   Compare two version numbers according to the rules found at
   https://semver.org/#semantic-versioning-200 .
   `

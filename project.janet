@@ -36,6 +36,7 @@
                              "-l"
                              "-L"
                              "https://github.com/djha-skin/janver/blob/main/"
+                             "-T" "docs/api-template.mustache"
                              "-o" "docs/api.md"] :e env))
       (when (not= 0 code)
         (error (string "documentarian failed with exit code " code))))

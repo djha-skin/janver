@@ -21,5 +21,4 @@ remain responsible for selecting a format and handling invalid input.
 - [Install janver](install.html)
 - [Try the quickstart](quickstart.html)
 - [Read the API reference](api.html)
-- [Contribute](contributing.html)
 - [Review the changelog](changelog.html)
