@@ -1,5 +1,7 @@
 # janver
 
+![janver logo](docs/assets/janver.png)
+
 `janver` compares version numbers in Janet. It implements Debian version
 ordering and Semantic Versioning 2.0.0 ordering as library functions, so it
 can be used from Janet programs without imposing a command-line interface.
@@ -73,3 +75,9 @@ The project is released as Git tags. The current release is `v0.2.0`.
 
 `janver` is released under the MIT License. See [LICENSE](LICENSE) for the
 full text.
+
+## The name
+
+The name is a little coincidence: it sounds like “JANet VERsioning,” which
+fits the library, but `janver` is really named for Johannes Vermeer, the
+painter. The logo is inspired by a painting by Vermeer.
