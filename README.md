@@ -37,11 +37,13 @@ positive number when it sorts later, and zero when the versions are equal.
 # => a negative number
 ```
 
-`debian-vercmp` follows Debian Policy Manual section 5.6.12. It supports an
-optional numeric epoch and Debian's special tilde ordering. `semver2-vercmp`
-follows the Semantic Versioning 2.0.0 precedence rules, including numeric and
-alphanumeric pre-release identifiers. Build metadata does not affect
-precedence.
+`debian-vercmp` follows the [Debian Policy Manual section
+5.6.12](https://www.debian.org/doc/debian-policy/ch-controlfields.html#version).
+It supports an optional numeric epoch and Debian's special tilde ordering.
+`semver2-vercmp` follows the [Semantic Versioning
+2.0.0](https://semver.org/#semantic-versioning-200) precedence rules,
+including numeric and alphanumeric pre-release identifiers. Build metadata
+does not affect precedence.
 
 ## Documentation
 
