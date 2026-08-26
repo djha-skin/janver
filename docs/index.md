@@ -3,12 +3,15 @@
 ![janver logo](assets/janver.png)
 
 `janver` is a Janet library for comparing version numbers. It provides
-comparators for Debian versions and Semantic Versioning 2.0.0 versions.
+comparators for Debian versions, Semantic Versioning 2.0.0 versions, and
+Maven `ComparableVersion` versions.
 
 ## How it fits
 
 Use `janver` when a Janet program needs to sort, validate, or compare version
-strings according to an established ecosystem's rules. The library is small
+strings according to an established ecosystem's rules. Maven comparison follows
+[Apache Maven's `ComparableVersion` implementation](https://github.com/apache/maven/blob/master/compat/maven-artifact/src/main/java/org/apache/maven/artifact/versioning/ComparableVersion.java),
+including its qualifier aliases and nested separator behavior. The library is small
 and dependency-light: the comparison functions operate on strings and return
 an ordinary numeric ordering result.
 

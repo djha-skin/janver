@@ -1,7 +1,7 @@
 # Quickstart
 
-This walkthrough shows how to compare Debian and SemVer 2.0.0 versions from a
-Janet program.
+This walkthrough shows how to compare Debian, SemVer 2.0.0, and Maven versions
+from a Janet program.
 
 ## Compare Debian versions
 
@@ -36,6 +36,21 @@ Numeric identifiers are compared numerically, and numeric identifiers sort
 before alphanumeric identifiers. A version without a pre-release section has
 higher precedence than one with a pre-release section. Build metadata is
 ignored when precedence is compared.
+
+## Compare Maven versions
+
+Use `maven-vercmp` for Apache Maven `ComparableVersion` precedence:
+
+```janet
+(assert (< (janver/maven-vercmp "1.0-SNAPSHOT" "1.0") 0))
+(assert (= (janver/maven-vercmp "1a1" "1-alpha-1") 0))
+(assert (< (janver/maven-vercmp "1.0.0" "1.0-1") 0))
+```
+
+Maven comparison is case-insensitive, recognizes `alpha`/`a`, `beta`/`b`,
+`milestone`/`m`, and `cr`/`rc` aliases, and compares numeric components as
+strings so it does not depend on machine integer size. The behavior is based
+on [Apache Maven's `ComparableVersion` source](https://github.com/apache/maven/blob/master/compat/maven-artifact/src/main/java/org/apache/maven/artifact/versioning/ComparableVersion.java).
 
 ## Use the result for sorting
 

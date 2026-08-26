@@ -20,6 +20,24 @@ Parse a Debian version into its epoch and alternating non-numeric and
 numeric parts.
 
 
+### maven-vercmp
+
+[Source](https://github.com/djha-skin/janver/blob/main/src/init.janet#L610)
+
+(maven-vercmp a b)
+
+Compare Maven versions according to Apache Maven ComparableVersion rules.
+
+
+### maven-version
+
+[Source](https://github.com/djha-skin/janver/blob/main/src/init.janet#L429)
+
+Tokens are tagged as :number, :text, or :separator. The parser keeps ASCII
+digit runs separate from text and preserves dots and hyphens for the nested
+Maven item builder.
+
+
 ### semver2
 
 [Source](https://github.com/djha-skin/janver/blob/main/src/init.janet#L269)

@@ -2,9 +2,9 @@
 
 ![janver logo](docs/assets/janver.png)
 
-`janver` compares version numbers in Janet. It implements Debian version
-ordering and Semantic Versioning 2.0.0 ordering as library functions, so it
-can be used from Janet programs without imposing a command-line interface.
+`janver` compares version numbers in Janet. It implements Debian version ordering, Semantic Versioning 2.0.0 ordering,
+and Maven `ComparableVersion` ordering as library functions, so it can be used
+from Janet programs without imposing a command-line interface.
 
 ## Install
 
@@ -37,6 +37,9 @@ positive number when it sorts later, and zero when the versions are equal.
 
 (janver/semver2-vercmp "1.0.0-alpha" "1.0.0")
 # => a negative number
+
+(janver/maven-vercmp "1.0-SNAPSHOT" "1.0")
+# => a negative number
 ```
 
 `debian-vercmp` follows the [Debian Policy Manual section
@@ -45,7 +48,11 @@ It supports an optional numeric epoch and Debian's special tilde ordering.
 `semver2-vercmp` follows the [Semantic Versioning
 2.0.0](https://semver.org/#semantic-versioning-200) precedence rules,
 including numeric and alphanumeric pre-release identifiers. Build metadata
-does not affect precedence.
+does not affect precedence. `maven-vercmp` follows Apache Maven's
+`ComparableVersion` behavior, including qualifier aliases, nested separators,
+case-insensitive comparison, and arbitrary-length numeric components. The
+implementation is based on [Apache Maven's ComparableVersion
+source](https://github.com/apache/maven/blob/master/compat/maven-artifact/src/main/java/org/apache/maven/artifact/versioning/ComparableVersion.java).
 
 ## Documentation
 
@@ -69,7 +76,7 @@ jpm -l run doc
 jpm -l test
 ```
 
-The project is released as Git tags. The current release is `v0.2.0`.
+The project is released as Git tags. The current release is `v0.3.0`.
 
 ## License
 
