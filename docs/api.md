@@ -38,6 +38,26 @@ digit runs separate from text and preserves dots and hyphens for the nested
 Maven item builder.
 
 
+### ruby-vercmp
+
+[Source](https://github.com/djha-skin/janver/blob/main/src/init.janet#L710)
+
+(ruby-vercmp a b)
+
+Compare RubyGems Gem::Version strings. Numeric segments are compared by
+their decimal values, strings sort before numbers, prerelease strings sort
+before release numbers, and insignificant trailing zero segments compare
+equal. Invalid version strings raise an error.
+
+
+### ruby-version
+
+[Source](https://github.com/djha-skin/janver/blob/main/src/init.janet#L623)
+
+Leading and trailing whitespace is accepted, as is an empty version (which
+becomes zero). Hyphens are represented as the prerelease marker "pre".
+
+
 ### semver2
 
 [Source](https://github.com/djha-skin/janver/blob/main/src/init.janet#L269)

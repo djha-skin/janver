@@ -5,9 +5,9 @@
 (declare-project
   :name "janver"
   :description `
-  Compare Debian, Semantic Versioning, and Maven versions from Janet.
+  Compare Debian, Semantic Versioning, Maven, and RubyGems versions from Janet.
   `
-  :version "0.3.0"
+  :version "0.4.0"
   :author "Daniel Jay Haskin"
   :license "MIT"
   :dependencies [{:url "https://github.com/ianthehenry/judge.git"

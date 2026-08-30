@@ -1,7 +1,7 @@
 # Quickstart
 
-This walkthrough shows how to compare Debian, SemVer 2.0.0, and Maven versions
-from a Janet program.
+This walkthrough shows how to compare Debian, SemVer 2.0.0, Maven, and RubyGems
+versions from a Janet program.
 
 ## Compare Debian versions
 
@@ -53,6 +53,25 @@ strings so it does not depend on machine integer size. The behavior is based
 on [Apache Maven's `ComparableVersion` source](https://github.com/apache/maven/blob/master/compat/maven-artifact/src/main/java/org/apache/maven/artifact/versioning/ComparableVersion.java).
 
 ## Use the result for sorting
+
+## Compare RubyGems versions
+
+Use `ruby-vercmp` for RubyGems `Gem::Version` precedence:
+
+```janet
+(assert (< (janver/ruby-vercmp "1.0.a1" "1.0") 0))
+(assert (= (janver/ruby-vercmp "1.0" "1.0.0") 0))
+(assert (= (janver/ruby-vercmp "1.0-rc1" "1.0.pre.rc1") 0))
+```
+
+`ruby-version` is the parser PEG. It returns tagged numeric and alphabetic
+runs, for example `1.0.a10` becomes `[[:number "1"] [:number "0"]
+[:string "a"] [:number "10"]]`. RubyGems accepts surrounding whitespace and
+blank input (blank input means zero), requires the version to start with a
+digit, and rejects malformed separators and non-ASCII letters. A hyphen is
+normalized as the prerelease marker `pre`, so `1.0-rc1` is compared like
+`1.0.pre.rc1`. Numeric runs are compared without converting them to machine
+integers; `1.0.a10` therefore sorts after `1.0.a9`.
 
 The comparators return the same negative, zero, or positive shape expected by
 code that needs an ordering function. They do not return a Boolean, so callers

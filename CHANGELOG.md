@@ -2,6 +2,17 @@
 
 All notable changes to `janver` are documented here.
 
+## [0.4.0] - 2026-08-29
+
+### Added
+
+- RubyGems `Gem::Version` parsing and precedence comparison with `ruby-version`
+  and `ruby-vercmp`.
+- RubyGems-compatible whitespace and blank-version handling, hyphen-to-`pre`
+  prerelease normalization, ASCII segment parsing, canonical trailing-zero
+  equality, and arbitrary-length numeric comparison.
+- API and quickstart documentation for RubyGems version comparison.
+
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and versions follow [Semantic Versioning](https://semver.org/).
 
@@ -32,6 +43,7 @@ and versions follow [Semantic Versioning](https://semver.org/).
 - Debian version parsing and comparison with `debian-version` and
   `debian-vercmp`.
 
+[0.4.0]: https://github.com/djha-skin/janver/releases/tag/v0.4.0
 [0.3.0]: https://github.com/djha-skin/janver/releases/tag/v0.3.0
 [0.2.0]: https://github.com/djha-skin/janver/releases/tag/v0.2.0
 [maven-design]: https://github.com/djha-skin/janver/wiki/Maven-ComparableVersion-Design
