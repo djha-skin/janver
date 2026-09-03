@@ -3,8 +3,9 @@
 ![janver logo](assets/janver.png)
 
 `janver` is a Janet library for comparing version numbers. It provides
-comparators for Debian versions, Semantic Versioning 2.0.0 versions, Maven
-`ComparableVersion` versions, and RubyGems `Gem::Version` versions.
+separate modules for Debian versions, Semantic Versioning 2.0.0 versions,
+Maven `ComparableVersion` versions, and RubyGems `Gem::Version` versions.
+Each module exposes a `version` parser and a `vercmp` comparator.
 
 ## How it fits
 
@@ -20,8 +21,10 @@ an ordinary numeric ordering result.
 ## Scope
 
 `janver` does not provide a command-line program, package manager integration,
-or version constraint solver. It compares complete version strings; callers
-remain responsible for selecting a format and handling invalid input.
+or version constraint solver. Import `janver/debian`, `janver/semver2`,
+`janver/maven`, or `janver/ruby` and call its `version` or `vercmp` functions.
+It compares complete version strings; callers remain responsible for selecting
+a format and handling invalid input.
 
 ## Next steps
 

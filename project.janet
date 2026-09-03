@@ -16,7 +16,12 @@
 
 (declare-source
   :prefix "janver"
-  :source ["src/init.janet"])
+  :source ["src/init.janet"
+           "src/utils.janet"
+           "src/debian.janet"
+           "src/semver2.janet"
+           "src/maven.janet"
+           "src/ruby.janet"])
 
 # Regenerate docs/api.md from the docstrings in the source with
 # Documentarian (installed into the local tree via :dependencies).

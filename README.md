@@ -26,25 +26,34 @@ jpm -l build
 
 ## Usage
 
-Import the module and call the comparator for the version format you need.
-Comparators return a negative number when the first version sorts earlier, a
-positive number when it sorts later, and zero when the versions are equal.
+Import the module for the version format you need. Each implementation
+provides `version` (its parser) and `vercmp` (its comparator). Comparators
+return a negative number when the first version sorts earlier, a positive
+number when it sorts later, and zero when the versions are equal.
 
 ```janet
-(import janver)
+(import janver/debian)
+(import janver/semver2)
+(import janver/maven)
+(import janver/ruby)
 
-(janver/debian-vercmp "1.2.3~rc1" "1.2.3")
+(debian/vercmp "1.2.3~rc1" "1.2.3")
 # => a negative number
 
-(janver/semver2-vercmp "1.0.0-alpha" "1.0.0")
+(semver2/vercmp "1.0.0-alpha" "1.0.0")
 # => a negative number
 
-(janver/maven-vercmp "1.0-SNAPSHOT" "1.0")
+(maven/vercmp "1.0-SNAPSHOT" "1.0")
 # => a negative number
 
-(janver/ruby-vercmp "1.0.a1" "1.0")
+(ruby/vercmp "1.0.a1" "1.0")
 # => a negative number
 ```
+
+The parsers are available from the same modules, for example
+`(peg/match semver2/version "1.2.3")`. For backwards compatibility,
+`(import janver)` still provides the original names such as
+`janver/semver2-vercmp`.
 
 `debian-vercmp` follows the [Debian Policy Manual section
 5.6.12](https://www.debian.org/doc/debian-policy/ch-controlfields.html#version).

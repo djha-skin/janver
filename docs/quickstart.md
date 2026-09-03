@@ -5,12 +5,12 @@ versions from a Janet program.
 
 ## Compare Debian versions
 
-Import the module and call `debian-vercmp`:
+Import the Debian module and call `debian/vercmp`:
 
 ```janet
-(import janver)
+(import janver/debian)
 
-(def result (janver/debian-vercmp "1.2.3~rc1" "1.2.3"))
+(def result (debian/vercmp "1.2.3~rc1" "1.2.3"))
 (assert (< result 0))
 ```
 
@@ -18,18 +18,21 @@ Debian puts a tilde before every other character, including the end of a
 part. Debian versions may also begin with a numeric epoch:
 
 ```janet
-(assert (> (janver/debian-vercmp "2:1.0" "1:9.9") 0))
-(assert (= (janver/debian-vercmp "0:1.2" "1.2") 0))
+(assert (> (debian/vercmp "2:1.0" "1:9.9") 0))
+(assert (= (debian/vercmp "0:1.2" "1.2") 0))
 ```
 
 ## Compare SemVer versions
 
-Use `semver2-vercmp` for Semantic Versioning 2.0.0 precedence:
+Import `janver/semver2` and use `semver2/vercmp` for Semantic Versioning
+2.0.0 precedence:
 
 ```janet
-(assert (< (janver/semver2-vercmp "1.0.0-alpha" "1.0.0") 0))
-(assert (< (janver/semver2-vercmp "1.0.0-beta.2" "1.0.0-beta.11") 0))
-(assert (> (janver/semver2-vercmp "2.0.0" "1.9.9") 0))
+(import janver/semver2)
+
+(assert (< (semver2/vercmp "1.0.0-alpha" "1.0.0") 0))
+(assert (< (semver2/vercmp "1.0.0-beta.2" "1.0.0-beta.11") 0))
+(assert (> (semver2/vercmp "2.0.0" "1.9.9") 0))
 ```
 
 Numeric identifiers are compared numerically, and numeric identifiers sort
@@ -39,12 +42,15 @@ ignored when precedence is compared.
 
 ## Compare Maven versions
 
-Use `maven-vercmp` for Apache Maven `ComparableVersion` precedence:
+Import `janver/maven` and use `maven/vercmp` for Apache Maven
+`ComparableVersion` precedence:
 
 ```janet
-(assert (< (janver/maven-vercmp "1.0-SNAPSHOT" "1.0") 0))
-(assert (= (janver/maven-vercmp "1a1" "1-alpha-1") 0))
-(assert (< (janver/maven-vercmp "1.0.0" "1.0-1") 0))
+(import janver/maven)
+
+(assert (< (maven/vercmp "1.0-SNAPSHOT" "1.0") 0))
+(assert (= (maven/vercmp "1a1" "1-alpha-1") 0))
+(assert (< (maven/vercmp "1.0.0" "1.0-1") 0))
 ```
 
 Maven comparison is case-insensitive, recognizes `alpha`/`a`, `beta`/`b`,
@@ -56,15 +62,18 @@ on [Apache Maven's `ComparableVersion` source](https://github.com/apache/maven/b
 
 ## Compare RubyGems versions
 
-Use `ruby-vercmp` for RubyGems `Gem::Version` precedence:
+Import `janver/ruby` and use `ruby/vercmp` for RubyGems `Gem::Version`
+precedence:
 
 ```janet
-(assert (< (janver/ruby-vercmp "1.0.a1" "1.0") 0))
-(assert (= (janver/ruby-vercmp "1.0" "1.0.0") 0))
-(assert (= (janver/ruby-vercmp "1.0-rc1" "1.0.pre.rc1") 0))
+(import janver/ruby)
+
+(assert (< (ruby/vercmp "1.0.a1" "1.0") 0))
+(assert (= (ruby/vercmp "1.0" "1.0.0") 0))
+(assert (= (ruby/vercmp "1.0-rc1" "1.0.pre.rc1") 0))
 ```
 
-`ruby-version` is the parser PEG. It returns tagged numeric and alphabetic
+`ruby/version` is the parser PEG. It returns tagged numeric and alphabetic
 runs, for example `1.0.a10` becomes `[[:number "1"] [:number "0"]
 [:string "a"] [:number "10"]]`. RubyGems accepts surrounding whitespace and
 blank input (blank input means zero), requires the version to start with a

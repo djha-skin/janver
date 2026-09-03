@@ -8,12 +8,16 @@ Install the current repository with jpm:
 jpm install https://github.com/djha-skin/janver
 ```
 
-Then import `janver` from a Janet program:
+Then import an implementation module from a Janet program:
 
 ```janet
-(import janver)
-(assert (= 0 (janver/debian-vercmp "1.2.3" "1.2.3")))
+(import janver/debian)
+(assert (= 0 (debian/vercmp "1.2.3" "1.2.3")))
 ```
+
+The other implementation modules are `janver/semver2`, `janver/maven`, and
+`janver/ruby`. The compatibility module `janver` still provides the original
+prefixed function names.
 
 ## Build from source
 
@@ -26,8 +30,8 @@ jpm -l deps
 jpm -l build
 ```
 
-The source module is `src/init.janet`; `declare-source` installs it under the
-`janver` prefix. Use `jpm -l test` to run the project's test suite from a
+The source modules are under `src/` and `declare-source` installs them under
+the `janver` prefix. Use `jpm -l test` to run the project's test suite from a
 working checkout.
 
 ## Requirements
