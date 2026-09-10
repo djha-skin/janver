@@ -5,9 +5,9 @@
 (declare-project
   :name "janver"
   :description `
-  Compare Debian, Semantic Versioning, Maven, and RubyGems versions from Janet.
+  Compare Debian, Semantic Versioning, Maven, RubyGems, and PEP 440 versions from Janet.
   `
-  :version "0.4.0"
+  :version "0.5.0"
   :author "Daniel Jay Haskin"
   :license "MIT"
   :dependencies [{:url "https://github.com/ianthehenry/judge.git"
@@ -21,7 +21,8 @@
            "src/debian.janet"
            "src/semver2.janet"
            "src/maven.janet"
-           "src/ruby.janet"])
+           "src/ruby.janet"
+           "src/pep440.janet"])
 
 # Regenerate docs/api.md from the docstrings in the source with
 # Documentarian (installed into the local tree via :dependencies).

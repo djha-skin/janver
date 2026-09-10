@@ -2,6 +2,15 @@
 
 All notable changes to `janver` are documented here.
 
+## [0.5.0] - 2026-09-09
+
+### Added
+
+- Python PEP 440 parsing and precedence comparison with `pep440-version` and
+  `pep440-vercmp`, including epochs, normalized pre/dev/post releases, local
+  labels, and arbitrary-length numeric components.
+- PEP 440 API and quickstart documentation.
+
 ## [0.4.0] - 2026-08-29
 
 ### Added
@@ -43,6 +52,7 @@ and versions follow [Semantic Versioning](https://semver.org/).
 - Debian version parsing and comparison with `debian-version` and
   `debian-vercmp`.
 
+[0.5.0]: https://github.com/djha-skin/janver/releases/tag/v0.5.0
 [0.4.0]: https://github.com/djha-skin/janver/releases/tag/v0.4.0
 [0.3.0]: https://github.com/djha-skin/janver/releases/tag/v0.3.0
 [0.2.0]: https://github.com/djha-skin/janver/releases/tag/v0.2.0

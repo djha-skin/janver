@@ -3,8 +3,8 @@
 ![janver logo](docs/assets/janver.png)
 
 `janver` compares version numbers in Janet. It implements Debian version ordering, Semantic Versioning 2.0.0 ordering,
-Maven `ComparableVersion` ordering, and RubyGems `Gem::Version` ordering as
-library functions, so it can be used from Janet programs without imposing a
+Maven `ComparableVersion` ordering, RubyGems `Gem::Version` ordering, and
+Python PEP 440 ordering as library functions, so it can be used from Janet programs without imposing a
 command-line interface.
 
 ## Install
@@ -36,6 +36,7 @@ number when it sorts later, and zero when the versions are equal.
 (import janver/semver2)
 (import janver/maven)
 (import janver/ruby)
+(import janver/pep440)
 
 (debian/vercmp "1.2.3~rc1" "1.2.3")
 # => a negative number
@@ -47,6 +48,9 @@ number when it sorts later, and zero when the versions are equal.
 # => a negative number
 
 (ruby/vercmp "1.0.a1" "1.0")
+# => a negative number
+
+(pep440/vercmp "1.0rc1" "1.0")
 # => a negative number
 ```
 
@@ -66,6 +70,11 @@ does not affect precedence. `maven-vercmp` follows Apache Maven's
 case-insensitive comparison, and arbitrary-length numeric components. The
 implementation is based on [Apache Maven's ComparableVersion
 source](https://github.com/apache/maven/blob/master/compat/maven-artifact/src/main/java/org/apache/maven/artifact/versioning/ComparableVersion.java).
+`pep440/vercmp` follows [Python PEP 440](https://peps.python.org/pep-0440/),
+including epoch, release, pre-release, development, post-release, and local
+version ordering. It accepts the standardized spelling aliases and preserves
+arbitrary-length numeric components as strings.
+
 `ruby-vercmp` follows RubyGems [`Gem::Version`](https://docs.ruby-lang.org/en/master/Gem/Version.html)
 comparison: it accepts an initial decimal component, dot-separated
 alphanumeric components, and an optional hyphenated prerelease suffix. Leading
@@ -97,7 +106,7 @@ jpm -l run doc
 jpm -l test
 ```
 
-The project is released as Git tags. The current release is `v0.4.0`.
+The project is released as Git tags. The current release is `v0.5.0`.
 
 ## License
 

@@ -60,6 +60,25 @@ on [Apache Maven's `ComparableVersion` source](https://github.com/apache/maven/b
 
 ## Use the result for sorting
 
+## Compare Python PEP 440 versions
+
+Import `janver/pep440` and use `pep440/vercmp` for Python packaging version
+precedence:
+
+```janet
+(import janver/pep440)
+
+(assert (< (pep440/vercmp "1.0.dev1" "1.0a1") 0))
+(assert (< (pep440/vercmp "1.0rc1" "1.0") 0))
+(assert (= (pep440/vercmp "1.0-1" "1.0.post1") 0))
+```
+
+PEP 440 comparison orders epochs, release segments, development, pre-release,
+final, and post-release versions. Local labels are compared only when the
+public versions are equal. Numeric components are compared as decimal strings,
+and accepted aliases such as `alpha`/`a`, `beta`/`b`, and `preview`/`rc` are
+normalized by `pep440/version`.
+
 ## Compare RubyGems versions
 
 Import `janver/ruby` and use `ruby/vercmp` for RubyGems `Gem::Version`
