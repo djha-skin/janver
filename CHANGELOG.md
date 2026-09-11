@@ -2,6 +2,21 @@
 
 All notable changes to `janver` are documented here.
 
+## [0.5.1] - 2026-09-11
+
+### Fixed
+
+- Corrected PEP 440 local-version ordering so numeric labels sort after text
+  labels, as required by the specification.
+- Accepted documented normalized separator forms for implicit pre-release,
+  post-release, and development-release numbers.
+
+### Added
+
+- Comprehensive adjacent Judge tests for every remaining PEP 440 helper and
+  expanded `vercmp` coverage, including legacy `c` release candidates, aliases,
+  malformed inputs, normalization, and ordering edge cases.
+
 ## [0.5.0] - 2026-09-09
 
 ### Added
@@ -52,6 +67,7 @@ and versions follow [Semantic Versioning](https://semver.org/).
 - Debian version parsing and comparison with `debian-version` and
   `debian-vercmp`.
 
+[0.5.1]: https://github.com/djha-skin/janver/releases/tag/v0.5.1
 [0.5.0]: https://github.com/djha-skin/janver/releases/tag/v0.5.0
 [0.4.0]: https://github.com/djha-skin/janver/releases/tag/v0.4.0
 [0.3.0]: https://github.com/djha-skin/janver/releases/tag/v0.3.0

@@ -72,8 +72,10 @@ implementation is based on [Apache Maven's ComparableVersion
 source](https://github.com/apache/maven/blob/master/compat/maven-artifact/src/main/java/org/apache/maven/artifact/versioning/ComparableVersion.java).
 `pep440/vercmp` follows [Python PEP 440](https://peps.python.org/pep-0440/),
 including epoch, release, pre-release, development, post-release, and local
-version ordering. It accepts the standardized spelling aliases and preserves
-arbitrary-length numeric components as strings.
+version ordering. It accepts the standardized spelling aliases, including the
+legacy `c` spelling for release candidates, and normalizes permitted separator
+variants. Local numeric components sort after local text components as specified
+by PEP 440; all decimal components remain strings for arbitrary-length values.
 
 `ruby-vercmp` follows RubyGems [`Gem::Version`](https://docs.ruby-lang.org/en/master/Gem/Version.html)
 comparison: it accepts an initial decimal component, dot-separated
@@ -106,7 +108,7 @@ jpm -l run doc
 jpm -l test
 ```
 
-The project is released as Git tags. The current release is `v0.5.0`.
+The project is released as Git tags. The current release is `v0.5.1`.
 
 ## License
 

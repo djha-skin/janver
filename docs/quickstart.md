@@ -76,8 +76,10 @@ precedence:
 PEP 440 comparison orders epochs, release segments, development, pre-release,
 final, and post-release versions. Local labels are compared only when the
 public versions are equal. Numeric components are compared as decimal strings,
-and accepted aliases such as `alpha`/`a`, `beta`/`b`, and `preview`/`rc` are
-normalized by `pep440/version`.
+and accepted aliases such as `alpha`/`a`, `beta`/`b`, and
+`preview`/`pre`/`rc`/`c` are normalized by `pep440/version`. Permitted `.`, `-`,
+and `_` separator variants are normalized as well; local numeric labels sort
+after local text labels according to PEP 440.
 
 ## Compare RubyGems versions
 

@@ -17,8 +17,9 @@ including its qualifier aliases and nested separator behavior. RubyGems
 comparison follows [`Gem::Version`](https://docs.ruby-lang.org/en/master/Gem/Version.html),
 including its prerelease normalization and trailing-zero equivalence. PEP 440
 comparison follows [Python's packaging version specification](https://peps.python.org/pep-0440/),
-including epochs, normalized pre/dev/post releases, and local versions. The library
-is small and dependency-light: the comparison functions operate on strings and
+including epochs, normalized pre/dev/post releases, legacy `c` release
+candidates, permitted separator variants, and local versions. The library is
+small and dependency-light: the comparison functions operate on strings and
 return an ordinary numeric ordering result.
 
 ## Scope

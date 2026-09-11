@@ -5,9 +5,10 @@
 (declare-project
   :name "janver"
   :description `
-  Compare Debian, Semantic Versioning, Maven, RubyGems, and PEP 440 versions from Janet.
+  Compare Debian, Semantic Versioning, Maven, RubyGems, and PEP 440 versions
+  from Janet.
   `
-  :version "0.5.0"
+  :version "0.5.1"
   :author "Daniel Jay Haskin"
   :license "MIT"
   :dependencies [{:url "https://github.com/ianthehenry/judge.git"

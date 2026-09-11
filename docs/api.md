@@ -60,7 +60,7 @@ Maven item builder.
 
 ### pep440-vercmp
 
-[Source](src/pep440.janet#L341)
+[Source](src/pep440.janet#L498)
 
 (vercmp a b)
 
@@ -71,7 +71,7 @@ the public versions are otherwise equal.
 
 ### pep440-version
 
-[Source](src/pep440.janet#L239)
+[Source](src/pep440.janet#L350)
 
 Parse and normalize a Python PEP 440 version identifier. The result contains
 epoch, release segments, pre-release, post-release, development-release, and
@@ -140,7 +140,7 @@ Maven item builder.
 
 ### vercmp
 
-[Source](https://github.com/djha-skin/janver/blob/main/src/pep440.janet#L341)
+[Source](https://github.com/djha-skin/janver/blob/main/src/pep440.janet#L498)
 
 (vercmp a b)
 
@@ -151,7 +151,7 @@ the public versions are otherwise equal.
 
 ### version
 
-[Source](https://github.com/djha-skin/janver/blob/main/src/pep440.janet#L239)
+[Source](https://github.com/djha-skin/janver/blob/main/src/pep440.janet#L350)
 
 Parse and normalize a Python PEP 440 version identifier. The result contains
 epoch, release segments, pre-release, post-release, development-release, and
